@@ -17,13 +17,15 @@
     <body>
 
 
-        <script src="js/three.min.js"></script>
+        <!--<script src="js/three.min.js"></script>-->
+        <script src="js/three.js"></script>
         <script src="js/physi.js"></script>
 
 
         <!-- load the font file from canvas-text -->
 
         <script src="helvetiker_regular.typeface.js"></script>
+        <script src="bretan_pro_regular.typeface.js"></script>
 
 
         <script>
@@ -69,9 +71,17 @@
                     size: 80,
                     height: 20,
                     curveSegments: 2,
-                    font: "helvetiker"
+                    weight: "normal",
+                    //font: "helvetiker"
+                    font: "bretan pro",
 
                 });
+                /*
+                var text3d = new THREE.TextGeometry( theText, {
+                    size: 20,
+                    font: "bretan pro",
+                });
+                */
 
                 text3d.computeBoundingBox();
                 var centerOffset = -0.5 * ( text3d.boundingBox.max.x - text3d.boundingBox.min.x );
@@ -92,9 +102,13 @@
 
                 //text.name = theText;
 
-                scene.add(text);
+                group = new THREE.Object3D();
+                group.add(text);
+                scene.add(group);
+                //scene.add(text);
 
-                lines.push(text);
+                //lines.push(text);
+                lines.push(group);
 
                 window.setTimeout(function() {shiftText();}, 5000);
 
@@ -119,13 +133,13 @@
                 scene = new Physijs.Scene;
                 //window.setTimeout(function() {newText("penis", scene);}, 5000);
 
-                // Get text from hash
-                group = new THREE.Object3D();
-                group.add( text );
-
-                scene.add( group );
-
                 text = newText("moi", scene);
+
+  //              group = new THREE.Object3D();
+ //               group.add( text );
+
+//                scene.add( group );
+
 
                 renderer = new THREE.CanvasRenderer();
                 renderer.setClearColor( 0xf0f0f0 );
