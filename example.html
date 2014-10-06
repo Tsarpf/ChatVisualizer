@@ -24,8 +24,9 @@
 
         <!-- load the font file from canvas-text -->
 
-        <script src="helvetiker_regular.typeface.js"></script>
-        <script src="bretan_pro_regular.typeface.js"></script>
+        <!--<script src="helvetiker_regular.typeface.js"></script>
+        <script src="bretan_pro_regular.typeface.js"></script>-->
+        <script src="open_sans_regular.typeface.js"></script>
 
 
         <script>
@@ -73,7 +74,7 @@
                     curveSegments: 2,
                     weight: "normal",
                     //font: "helvetiker"
-                    font: "bretan pro",
+                    font: "open sans",
 
                 });
                 /*
@@ -90,8 +91,13 @@
                 //text = new THREE.Mesh( text3d, textMaterial );
                 text = new Physijs.BoxMesh(
                     text3d,
-                    textMaterial
+                    textMaterial,
+                    1
                 );
+
+                text.addEventListener('collision', function(otherObj, relativeVelocity, relativeRotation, contactNormal) {
+                    console.log("ses");
+                });
 
                 text.position.x = centerOffset;
                 text.position.y = 100;
@@ -102,13 +108,13 @@
 
                 //text.name = theText;
 
-                group = new THREE.Object3D();
-                group.add(text);
-                scene.add(group);
-                //scene.add(text);
+                //group = new THREE.Object3D();
+                //group.add(text);
+                //scene.add(group);
+                scene.add(text);
 
-                //lines.push(text);
-                lines.push(group);
+                lines.push(text);
+                //lines.push(group);
 
                 window.setTimeout(function() {shiftText();}, 5000);
 
@@ -240,6 +246,7 @@
             function animate() {
 
                 requestAnimationFrame( animate );
+                scene.simulate();
 
                 render();
 
@@ -247,11 +254,12 @@
 
             function render() {
 
-                scene.simulate();
                 var color = Math.random() * 0xffffff;
-                var change = ( targetRotation - group.rotation.y ) * 0.05;
+                //var change = ( targetRotation - text.rotation.y ) * 0.05;
+                var change = 0;
 
-                group.rotation.y += ( targetRotation - group.rotation.y ) * 0.05;
+                //text.rotation.y += ( targetRotation - text.rotation.y ) * 0.05;
+                //text.rotation.y += change;
 
 
                 if(Math.abs(change) >= 0.10) {
