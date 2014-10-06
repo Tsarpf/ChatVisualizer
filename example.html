@@ -54,6 +54,7 @@
             function newText(text, scene){
                 var theText = text;
 
+                /*
                 var hash = document.location.hash.substr( 1 );
 
                 if ( hash.length > 0 ) {
@@ -61,6 +62,7 @@
                     theText = hash;
 
                 }
+                */
 
                 var text3d = new THREE.TextGeometry( theText, {
 
@@ -245,6 +247,18 @@
                 renderer.render( scene, camera );
 
             }
+
+            function initSocket() {
+                var ws = new WebSocket("ws://datisbox.net:8009/");
+                ws.onopen = function() {
+                    ws.send("Test msg");
+                }
+                ws.onmessage = function(evt) {
+                    console.log("got data: " + evt.data);
+                    newText(evt.data, scene);
+                }
+            }
+            initSocket();
 
         </script>
 
